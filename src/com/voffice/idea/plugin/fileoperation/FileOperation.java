@@ -41,6 +41,36 @@ public class FileOperation {
         return psiFile;
     }
 
+    /**
+     *  新建文件 如果目录存在同名的文件，删除原文件
+     * @param fileName   文件名  包含后缀
+     * @param fileSourcesCode  文件代码
+     * @param directory    对应的目录
+     * @return
+     */
+    public static PsiFile createFileExistCancel(String fileName, String fileSourcesCode, PsiDirectory directory){
+        Language language=getLanguage(fileName);
+        PsiFile psiFile = PsiFileFactory.getInstance(G.getProject()).createFileFromText(fileName, language, fileSourcesCode);
+        //如果这个目录下已经存在同名的文件，那么删除
+        PsiFile[] files = directory.getFiles();
+        for (PsiFile file : files) {
+            if(file.getName().equals(fileName)){
+               return file;
+            }
+        }
+        WriteCommandAction.runWriteCommandAction(G.getProject(), () -> {
+            if(language==JavaLanguage.INSTANCE) {
+                JavaCodeStyleManager styleManager = JavaCodeStyleManager.getInstance(G.getProject());
+                styleManager.optimizeImports(psiFile);
+            }
+            CodeStyleManager.getInstance(G.getProject()).reformat(psiFile);
+            directory.add(psiFile);
+        });
+        return psiFile;
+    }
+
+
+
     private static Language getLanguage(String fileName){
         Language language;
         if(fileName.endsWith("java")){

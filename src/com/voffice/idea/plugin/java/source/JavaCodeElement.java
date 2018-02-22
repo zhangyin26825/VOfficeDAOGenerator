@@ -25,6 +25,8 @@ public interface JavaCodeElement {
 
     String CLASS="class ";
 
+    String ENUM="enum ";
+
 
     /**
      * 注释
@@ -42,7 +44,7 @@ public interface JavaCodeElement {
         return stringBuffer.toString();
     }
 
-    //去掉下划线  连字符后的字母大写
+    //去掉连字符后的字母大写
     default String removeUnderline(String old) {
         StringBuffer stringBuffer = new StringBuffer();
         char[] chars = old.toCharArray();
