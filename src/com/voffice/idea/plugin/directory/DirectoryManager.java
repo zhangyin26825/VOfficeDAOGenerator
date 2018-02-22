@@ -103,29 +103,6 @@ public class DirectoryManager {
         }
         initSqlAndMybatisXmlDirectory(psiDaoPackage);
     }
-    //初始化  sql  跟  mybatis xml 的目录
-//    private  static void  initSqlAndMybatisXmlDirectory(PsiPackage psiPackage){
-//        PsiPackage root=psiPackage;
-//        while(root.getParentPackage()!=null){
-//            root=root.getParentPackage();
-//        }
-//        PsiDirectory[] directories = root.getDirectories();
-//        for (PsiDirectory directory : directories) {
-//
-//            String path = directory.getVirtualFile().getPath();
-//
-//            if(directory.getName().equals("resources")&&path.contains("core/src/main")){
-//                sqlDiretory= directory.findSubdirectory("db").findSubdirectory("migrations");
-//                xmlMapperDirectory=directory.findSubdirectory("com").findSubdirectory("voffice")
-//                        .findSubdirectory("sz")
-//                        .findSubdirectory("core")
-//                        .findSubdirectory("v2")
-//                        .findSubdirectory("dao")
-//                        .findSubdirectory("mapper");
-//                break;
-//            }
-//        }
-//    }
 
     private  static void  initSqlAndMybatisXmlDirectory(PsiPackage psiPackage){
         VirtualFile virtualFile = psiPackage.getDirectories()[0].getVirtualFile();

@@ -3,19 +3,42 @@ package com.voffice.idea.plugin.java.source;
 /**
  *  这里定义一个 java 文件的主体结构  包  导入   类注释   类注解   类标识信息  类包含的信息
  */
-public abstract class AbstractJavaCodeGenerator implements CodeGenerator,JavaCodeElement{
+public abstract class AbstractJavaCodeGenerator implements CodeGenerator{
+    /**
+     * 包
+     * @return
+     */
+    public abstract String  packageCode();
 
-    abstract String  packageCode();
+    /**
+     * 导入
+     * @return
+     */
+    public abstract String  importCode();
 
-    abstract String  importCode();
+    /**
+     * 类注释
+     * @return
+     */
+    public abstract String  classCommentCode();
 
-    abstract String  classCommentCode();
+    /**
+     * 类注解
+     * @return
+     */
+    public abstract String  classAnnotation();
 
-    abstract String  classAnnotation();
+    /**
+     * 类标识信息
+     * @return
+     */
+    public abstract String  classIdentification();
 
-    abstract String  classIdentification();
-
-    abstract String  classbody();
+    /**
+     * 类里面的信息
+     * @return
+     */
+    public abstract String  classbody();
 
     @Override
     public String produceJavaClassourceCode() {
