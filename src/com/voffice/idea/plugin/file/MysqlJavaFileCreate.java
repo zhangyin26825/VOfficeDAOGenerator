@@ -1,5 +1,6 @@
-package com.voffice.idea.plugin.java.source;
+package com.voffice.idea.plugin.file;
 
+import com.voffice.idea.plugin.directory.DirectoryManager;
 import com.voffice.idea.plugin.jdbc.ColumnInfo;
 import com.voffice.idea.plugin.jdbc.TableInfo;
 
@@ -7,9 +8,11 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 /**
- * 这里增加 maqv 数据库相关实现的一些方法，增加一些默认的导入
+ * 针对 mysql 数据库生成相关java类
  */
-public  abstract  class MaqvJavaCodeGenerator extends JavaCodeGeneratorImpl {
+public  abstract  class MysqlJavaFileCreate  extends JavaFileCreate{
+
+    protected String AUTHOR="@author Ben.Ma <xiaobenma020@gmail.com>";
 
     protected String tableName;
 
@@ -17,20 +20,28 @@ public  abstract  class MaqvJavaCodeGenerator extends JavaCodeGeneratorImpl {
 
     protected List<ColumnInfo> columnInfos;
 
-    protected MaqvJavaCodeGenerator(TableInfo tableInfo){
+    protected MysqlJavaFileCreate(TableInfo tableInfo){
         this.tableName=tableInfo.getTableName();
         this.tableComment=tableInfo.getTableComment();
         this.columnInfos=tableInfo.getColumnInfos();
     }
 
-    public String  getClassName(){
-        return  getClassName(tableName);
-    }
-
-    protected String getAlias() {
+    protected String getTableAlias() {
         return getAlias(tableName);
     }
 
+    protected String  getBaseEntityName(){
+        return  convertTableNameToClassName(tableName);
+    }
+
+    protected String  getBaseEntityGeneric(){
+        return "<"+getBaseEntityName()+">";
+    }
+
+    /**
+     * 多主键
+     * @return
+     */
     public Boolean  isMultiId(){
         List<ColumnInfo> collect = getPriKey();
         if(collect.size()<2){
@@ -39,12 +50,23 @@ public  abstract  class MaqvJavaCodeGenerator extends JavaCodeGeneratorImpl {
         return  true;
     }
 
+    /**
+     * 无主键
+     * @return
+     */
+    public Boolean  isNoId(){
+        List<ColumnInfo> collect = getPriKey();
+        return  collect.isEmpty();
+    }
+
     public  List<ColumnInfo> getPriKey(){
         List<ColumnInfo> collect = columnInfos.stream().filter(c -> "PRI".equals(c.getColumnKey())).collect(Collectors.toList());
         return collect;
     }
 
-    public abstract  String  getThisClassName();
+    protected  void  addBaseEntityImport(){
+        addImport(DirectoryManager.getPoPackage()+"."+getBaseEntityName());
+    }
 
     protected  void  addLombokImport(){
         addImport("lombok.Getter");
@@ -62,8 +84,10 @@ public  abstract  class MaqvJavaCodeGenerator extends JavaCodeGeneratorImpl {
     protected  void addDaoImport(){
         addImport("com.maqv.mybatis.core.dao.MultipleIdDao");
         addImport("com.maqv.mybatis.core.dao.SingleIdDao");
+        addImport("com.maqv.mybatis.core.dao.NoIdDao");
         addImport("com.maqv.mybatis.core.dao.impl.SingleIdDaoImpl");
         addImport("com.maqv.mybatis.core.dao.impl.MultipleIdDaoImpl");
+        addImport("com.maqv.mybatis.core.dao.impl.NoIdDaoImpl");
     }
 
     protected  void  addEnumImport(){

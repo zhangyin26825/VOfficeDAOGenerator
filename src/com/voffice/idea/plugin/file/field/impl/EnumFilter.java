@@ -1,6 +1,6 @@
-package com.voffice.idea.plugin.java.source.field.impl;
+package com.voffice.idea.plugin.file.field.impl;
 
-import com.voffice.idea.plugin.java.source.field.EnumFieldFilter;
+import com.voffice.idea.plugin.file.field.EnumFieldFilter;
 import com.voffice.idea.plugin.jdbc.ColumnInfo;
 import org.apache.commons.lang.StringUtils;
 

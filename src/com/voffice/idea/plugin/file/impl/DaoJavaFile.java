@@ -1,48 +1,48 @@
-package com.voffice.idea.plugin.java.source.impl;
+package com.voffice.idea.plugin.file.impl;
 
 import com.voffice.idea.plugin.directory.DirectoryManager;
-import com.voffice.idea.plugin.java.source.MaqvJavaCodeGenerator;
+import com.voffice.idea.plugin.file.MysqlJavaFileCreate;
 import com.voffice.idea.plugin.jdbc.TableInfo;
 
-public class DaoImplJavaCodeGenerator extends MaqvJavaCodeGenerator {
+public class DaoJavaFile extends MysqlJavaFileCreate {
 
-
-    public DaoImplJavaCodeGenerator(TableInfo tableInfo){
+    public DaoJavaFile(TableInfo tableInfo) {
         super(tableInfo);
+        addBaseEntityImport();
         addDaoImport();
-        addSpringImport();
     }
-
     @Override
-    public String getThisClassName() {
-        return getClassName()+"DaoImpl";
+    public String getClassName() {
+        return getBaseEntityName()+"Dao";
     }
 
     @Override
     public String getPackageName() {
-        return DirectoryManager.getDaoImplPackage();
+        return DirectoryManager.getDaoPackage();
     }
 
     @Override
     public String classCommentCode() {
-        return comment(" Dao for "+tableName,"","@author Ben.Ma <xiaobenma020@gmail.com>");
+        return comment(" Dao for "+tableName,"",AUTHOR);
     }
 
     @Override
     public String classAnnotation() {
-        return "@Repository";
+        return "";
     }
 
     @Override
     public String classIdentification() {
         StringBuffer stringBuffer=new StringBuffer();
-        stringBuffer.append(PUBLIC+CLASS+getThisClassName()+EXTENDS);
+        stringBuffer.append(PUBLIC+INTERFACE+getClassName()+EXTENDS);
         if(isMultiId()){
             stringBuffer.append("MultipleIdDao");
+        }else if(isNoId()){
+            stringBuffer.append("NoIdDao");
         }else{
             stringBuffer.append("SingleIdDao");
         }
-        stringBuffer.append("<").append(getClassName()).append(">");
+        stringBuffer.append(getBaseEntityGeneric());
         return stringBuffer.toString();
     }
 

@@ -1,6 +1,6 @@
-package com.voffice.idea.plugin.java.source.field.impl;
+package com.voffice.idea.plugin.file.field.impl;
 
-import com.voffice.idea.plugin.java.source.field.FieldGenerator;
+import com.voffice.idea.plugin.file.field.FieldGenerator;
 import com.voffice.idea.plugin.jdbc.ColumnInfo;
 import com.voffice.idea.plugin.jdbc.JdbcTypeTranslater;
 import org.apache.commons.lang.StringUtils;

@@ -1,4 +1,4 @@
-package com.voffice.idea.plugin.java.source.field;
+package com.voffice.idea.plugin.file.field;
 
 import com.voffice.idea.plugin.jdbc.ColumnInfo;
 

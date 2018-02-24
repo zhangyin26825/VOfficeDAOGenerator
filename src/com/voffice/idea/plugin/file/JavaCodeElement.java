@@ -1,4 +1,4 @@
-package com.voffice.idea.plugin.java.source;
+package com.voffice.idea.plugin.file;
 
 import org.apache.commons.lang.StringUtils;
 
@@ -30,6 +30,8 @@ public interface JavaCodeElement {
     String INTERFACE="interface ";
 
     String EXTENDS=" extends ";
+
+    String IMPLEMENTS=" implements ";
 
 
     /**
@@ -68,7 +70,7 @@ public interface JavaCodeElement {
         return stringBuffer.toString();
     }
 
-    default String getClassName(String tableName){
+    default String convertTableNameToClassName(String tableName){
         String result = tableName;
         if (tableName.startsWith("sz_")) {
             result = tableName.replaceFirst("sz_", "");
