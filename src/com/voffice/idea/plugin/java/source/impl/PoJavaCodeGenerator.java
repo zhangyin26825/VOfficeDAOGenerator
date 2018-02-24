@@ -19,6 +19,10 @@ public class PoJavaCodeGenerator extends MaqvJavaCodeGenerator {
         addMaqvMysqlImport();
 
     }
+    @Override
+    public String  getThisClassName(){
+        return  getClassName();
+    }
 
     @Override
     public String  getPackageName(){
@@ -52,4 +56,6 @@ public class PoJavaCodeGenerator extends MaqvJavaCodeGenerator {
     public String classbody() {
         return "";
     }
+
+
 }

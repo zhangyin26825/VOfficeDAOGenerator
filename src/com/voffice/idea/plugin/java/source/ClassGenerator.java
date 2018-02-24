@@ -5,7 +5,10 @@ import com.voffice.idea.plugin.directory.DirectoryManager;
 import com.voffice.idea.plugin.fileoperation.FileOperation;
 import com.voffice.idea.plugin.java.source.field.EnumFieldFilter;
 import com.voffice.idea.plugin.java.source.field.FieldGenerator;
+import com.voffice.idea.plugin.java.source.impl.DaoJavaCodeGenerator;
+import com.voffice.idea.plugin.java.source.impl.MapperJavaCodeGenerator;
 import com.voffice.idea.plugin.java.source.impl.PoJavaCodeGenerator;
+import com.voffice.idea.plugin.java.source.impl.TableJavaCodeGenerator;
 import com.voffice.idea.plugin.jdbc.ColumnInfo;
 import com.voffice.idea.plugin.jdbc.TableInfo;
 
@@ -28,6 +31,15 @@ public class ClassGenerator implements  JavaCodeElement{
         this.tableInfo = tableInfo;
     }
 
+    public  void generator(){
+        PsiJavaFile poJavaFile = generatorPo();
+        PsiJavaFile tableClass = generatorTableClass();
+        PsiJavaFile daoClass = generatorDaoClass();
+        FileOperation.addJavaImport(daoClass, poJavaFile.getClasses()[0]);
+        PsiJavaFile mapperClass = generatorMapperClass();
+        FileOperation.addJavaImport(mapperClass, poJavaFile.getClasses()[0]);
+    }
+
     public  PsiJavaFile  generatorPo(){
         CodeGenerator codeGenerator = new PoJavaCodeGenerator(tableInfo);
         String classourceCode = codeGenerator.produceJavaClassourceCode();
@@ -48,5 +60,30 @@ public class ClassGenerator implements  JavaCodeElement{
            }
         }
         return psiJavaFile;
+    }
+
+    public PsiJavaFile generatorTableClass(){
+        TableJavaCodeGenerator codeGenerator = new TableJavaCodeGenerator(tableInfo);
+        String tableClassSourceCode = codeGenerator.produceJavaClassourceCode();
+        PsiJavaFile psiJavaFile = (PsiJavaFile)FileOperation
+                .createFileExistDel(codeGenerator.getThisClassName()+JavaSuffix,tableClassSourceCode,DirectoryManager.getPsiTableDirectory());
+        return psiJavaFile;
+    }
+
+    public  PsiJavaFile  generatorDaoClass(){
+        DaoJavaCodeGenerator codeGenerator=new DaoJavaCodeGenerator(tableInfo);
+        String daoSourceCode = codeGenerator.produceJavaClassourceCode();
+        PsiJavaFile psiJavaFile = (PsiJavaFile)FileOperation
+                .createFileExistDel(codeGenerator.getThisClassName()+JavaSuffix,daoSourceCode,DirectoryManager.getPsiDaoDirectory());
+        return psiJavaFile;
+    }
+
+    public PsiJavaFile  generatorMapperClass(){
+        MapperJavaCodeGenerator codeGenerator=new MapperJavaCodeGenerator(tableInfo);
+        String daoSourceCode = codeGenerator.produceJavaClassourceCode();
+        PsiJavaFile psiJavaFile = (PsiJavaFile)FileOperation
+                .createFileExistDel(codeGenerator.getThisClassName()+JavaSuffix,daoSourceCode,DirectoryManager.getPsiMapperDirectory());
+        return psiJavaFile;
+
     }
 }

@@ -27,6 +27,10 @@ public interface JavaCodeElement {
 
     String ENUM="enum ";
 
+    String INTERFACE="interface ";
+
+    String EXTENDS=" extends ";
+
 
     /**
      * 注释
