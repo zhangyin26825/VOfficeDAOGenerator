@@ -18,7 +18,7 @@ public class DataListSelect extends JPanel{
     private JButton exitButton;
     private JList<String> list1;
     private JScrollBar scrollBar1;
-
+    private JScrollPane jScrollPane;
 
     private JBPopup jbPopup;
     private List<ListValue> dataList;
@@ -27,12 +27,14 @@ public class DataListSelect extends JPanel{
     private void initComponent(){
         textField1=new JTextField();
         exitButton=new JButton("退出");
-        list1=new JList<>();
-        scrollBar1=new JScrollBar();
-        scrollBar1.add(list1);
+        list1=new JList<String>();
+        jScrollPane=new JScrollPane(list1);
+
+//        scrollBar1=new JScrollBar(JScrollBar.VERTICAL);
+//        scrollBar1.add(list1);
         this.setLayout(new BorderLayout());
         this.add("North", textField1);
-        this.add("Center", scrollBar1);
+        this.add("Center", jScrollPane);
         this.add("South", exitButton);
     }
 
@@ -81,18 +83,9 @@ public class DataListSelect extends JPanel{
             }
         });
         this.repaint();
+        list1.repaint();
     }
 
-
-    public static void main(String[] args) {
-        JFrame frame = new JFrame("TableSelect");
-//        TableSelect tableSelect = new TableSelect();
-//        tableSelect.init();
-//        frame.setContentPane(tableSelect.panel1);
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.pack();
-        frame.setVisible(true);
-    }
 
     public void setJbPopup(JBPopup jbPopup) {
         this.jbPopup = jbPopup;

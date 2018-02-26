@@ -11,6 +11,7 @@ public class DaoImplJavaFile extends MysqlJavaFileCreate {
         addDaoImport();
         addBaseEntityImport();
         addSpringImport();
+        addMapperImport();
         addImport(DirectoryManager.getDaoPackage()+"."+getBaseEntityName()+"Dao");
         addImport(DirectoryManager.getMapperPackage()+"."+getBaseEntityName()+"Mapper");
     }
@@ -32,7 +33,7 @@ public class DaoImplJavaFile extends MysqlJavaFileCreate {
 
     @Override
     public String classAnnotation() {
-        return "@Repository";
+        return "@Repository"+NEWLINE;
     }
 
     @Override

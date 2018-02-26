@@ -7,11 +7,11 @@ import com.intellij.openapi.components.Storage;
 import org.jetbrains.annotations.Nullable;
 
 @State(
-        name = "gen-mysql",
+        name = "maqv-gen-mysql",
         storages = {
                 @Storage(
-                        id = "gen-mysql",
-                        file = "$APP_CONFIG$/gen-mysql.xml"
+                        id = "maqv-gen-mysql",
+                        file = "$APP_CONFIG$/maqv-gen-mysql.xml"
                 )
         }
 )

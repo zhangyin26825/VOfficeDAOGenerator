@@ -1,17 +1,33 @@
 package com.voffice.idea.plugin.file.impl;
 
+import com.intellij.psi.PsiJavaFile;
 import com.voffice.idea.plugin.directory.DirectoryManager;
 import com.voffice.idea.plugin.file.MysqlJavaFileCreate;
+import com.voffice.idea.plugin.file.enumclass.EnumJavaFile;
+import com.voffice.idea.plugin.file.field.FieldGenerator;
+import com.voffice.idea.plugin.fileoperation.FileOperation;
+import com.voffice.idea.plugin.jdbc.ColumnInfo;
 import com.voffice.idea.plugin.jdbc.TableInfo;
 import org.apache.commons.lang.StringUtils;
 
 public class EntityJavaFile extends MysqlJavaFileCreate {
 
+    FieldGenerator fieldGenerator;
 
-    public EntityJavaFile(TableInfo tableInfo){
+    public EntityJavaFile(TableInfo tableInfo,FieldGenerator fieldGenerator){
         super(tableInfo);
+        this.fieldGenerator=fieldGenerator;
         addLombokImport();
         addMaqvMysqlImport();
+        addEnumClass();
+    }
+
+    public void addEnumClass(){
+        for (ColumnInfo columnInfo : columnInfos) {
+            if(fieldGenerator.isEnum(columnInfo)){
+               addImport(DirectoryManager.getTypePackage()+"."+StringUtils.capitalize(getFieldName(columnInfo.getColumnName())));
+            }
+        }
     }
 
     @Override
@@ -49,6 +65,10 @@ public class EntityJavaFile extends MysqlJavaFileCreate {
 
     @Override
     public String classbody() {
-        return "";
+        StringBuffer stringBuffer = new StringBuffer();
+        for (ColumnInfo columnInfo : columnInfos) {
+            stringBuffer.append(fieldGenerator.generatorFieldDesc(columnInfo));
+        }
+        return stringBuffer.toString();
     }
 }

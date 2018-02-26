@@ -5,5 +5,7 @@ import com.voffice.idea.plugin.jdbc.ColumnInfo;
 
 public interface FieldGenerator extends JavaCodeElement {
 
-    String  generatorFieldDesc(ColumnInfo columnInfo);
+    boolean isEnum(ColumnInfo columnInfo);
+
+    public abstract String  generatorFieldDesc(ColumnInfo columnInfo);
 }

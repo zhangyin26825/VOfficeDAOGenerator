@@ -79,6 +79,7 @@ public  abstract  class MysqlJavaFileCreate  extends JavaFileCreate{
         addImport("com.maqv.mysql.annotation.Table");
         addImport("com.maqv.mysql.db.DBColumn");
         addImport("com.maqv.mysql.db.DBTable");
+        addImport("com.maqv.mysql.db.DBId;");
     }
 
     protected  void addDaoImport(){

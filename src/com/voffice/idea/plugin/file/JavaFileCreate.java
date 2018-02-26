@@ -78,7 +78,7 @@ public abstract class JavaFileCreate  implements TextFileCreate,JavaCodeElement 
         sb.append(NEWLINE);
         sb.append(classCommentCode());
         sb.append(NEWLINE);
-        sb.append(classAnnotation()+NEWLINE);
+        sb.append(classAnnotation());
         sb.append(classIdentification()+LEFT_BRACES+NEWLINE);
         sb.append(NEWLINE);
         sb.append(classbody());

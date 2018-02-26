@@ -1,7 +1,8 @@
 package com.voffice.idea.plugin.mysqlconfig.ui;
 
 import com.intellij.openapi.ui.popup.JBPopup;
-import com.zhangyin.mysqlconfig.MySqlPersistent;
+import com.voffice.idea.plugin.mysqlconfig.MySqlPersistent;
+
 
 import javax.swing.*;
 import java.awt.*;

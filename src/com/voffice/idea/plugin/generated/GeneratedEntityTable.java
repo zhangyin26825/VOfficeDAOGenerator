@@ -34,8 +34,8 @@ public class GeneratedEntityTable {
      * 获取已经生成过的实体类的表名
      * @return
      */
-    public static List<String>   getGeneratedTables(){
-        List<String> tableNames = entityClasses.stream().map(e -> getTableNameFromEntityClass(e)).collect(Collectors.toList());
+    public static Set<String>   getGeneratedTables(){
+        Set<String> tableNames = entityClasses.stream().map(e -> getTableNameFromEntityClass(e)).collect(Collectors.toSet());
         return tableNames;
     }
 
@@ -50,7 +50,10 @@ public class GeneratedEntityTable {
         Optional<String> name = Arrays.asList(annotations).stream().filter(p -> p.getQualifiedName().equals(Constant.Table))
                 .map(a -> a.findAttributeValue("name").getText())
                 .findFirst();
-        return  name.get();
+        if(name.isPresent()){
+            return  name.get().replaceAll("\"","" );
+        }
+        return  "";
     }
 
     public static Set<PsiJavaFile> getEntityClasses() {

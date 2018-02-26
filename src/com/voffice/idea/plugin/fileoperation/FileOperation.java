@@ -27,7 +27,10 @@ public class FileOperation {
         PsiFile[] files = directory.getFiles();
         for (PsiFile file : files) {
             if(file.getName().equals(fileName)){
-                file.delete();
+                WriteCommandAction.runWriteCommandAction(G.getProject(), () -> {
+                    file.delete();
+                });
+
             }
         }
         WriteCommandAction.runWriteCommandAction(G.getProject(), () -> {
@@ -101,7 +104,7 @@ public class FileOperation {
     public  static void   addJavaField(PsiJavaFile psiJavaFile,String fieldDesc){
         JavaPsiFacade javaPsiFacade = JavaPsiFacade.getInstance(G.getProject());
         PsiJavaParserFacade parserFacade = javaPsiFacade.getParserFacade();
-        PsiField psiField = parserFacade.createFieldFromText(fieldDesc, null);
+        PsiField psiField = parserFacade.createFieldFromText(fieldDesc, psiJavaFile);
         WriteCommandAction.runWriteCommandAction(G.getProject(), () -> {
             getPsiJavaDocumentedElement(psiJavaFile).add(psiField);
         });
