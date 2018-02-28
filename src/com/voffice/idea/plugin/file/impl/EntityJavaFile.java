@@ -1,5 +1,6 @@
 package com.voffice.idea.plugin.file.impl;
 
+import com.intellij.psi.PsiDirectory;
 import com.intellij.psi.PsiJavaFile;
 import com.voffice.idea.plugin.directory.DirectoryManager;
 import com.voffice.idea.plugin.file.MysqlJavaFileCreate;
@@ -20,6 +21,11 @@ public class EntityJavaFile extends MysqlJavaFileCreate {
         addLombokImport();
         addMaqvMysqlImport();
         addEnumClass();
+    }
+
+    @Override
+    public PsiDirectory getDirectory() {
+        return DirectoryManager.getPsiPoDirectory();
     }
 
     public void addEnumClass(){

@@ -8,11 +8,15 @@ import com.intellij.openapi.vfs.VirtualFile;
 import com.intellij.psi.*;
 import com.voffice.idea.plugin.collector.MostRepeatedElementCollector;
 import com.voffice.idea.plugin.util.FindUseUtil;
+import org.apache.log4j.Logger;
 
 import java.util.Set;
 
 
 public class DirectoryManager {
+
+    private static Logger logger = Logger.getLogger(DirectoryManager.class);
+
 
 
     //实体类所在的包
@@ -55,8 +59,10 @@ public class DirectoryManager {
         poPackage = entityClasses.stream()
                 .map(e -> e.getPackageName())
                 .collect(new MostRepeatedElementCollector<>());
+        logger.info("实体类所在的目录为"+poPackage);
         PsiPackage psiPoPackage = FindUseUtil.findPackage(poPackage);
         psiPoDirectory=psiPoPackage.getDirectories()[0];
+        logger.info("实体类所在的目录为"+poPackage+"对应的目录是否为空 "+(psiPoDirectory==null));
         initDirectorys();
     }
 
@@ -75,6 +81,8 @@ public class DirectoryManager {
                     psiTypeDirectory = (PsiDirectory) subPackage.getDirectories()[0];
                 }
             }
+            logger.info("table类所在的目录为"+tablePackage+"对应的目录是否为空 "+(psiTableDirectory==null));
+            logger.info("type所在的目录为"+typePackage+"对应的目录是否为空 "+(psiTypeDirectory==null));
         }
         PsiPackage psiDaoPackage=null;
         {
@@ -88,6 +96,7 @@ public class DirectoryManager {
                 }
 
             }
+            logger.info("dao类所在的目录为"+daoPackage+"对应的目录是否为空 "+(psiDaoDirectory==null));
         }
         PsiPackage[] subPackages = psiDaoPackage.getSubPackages();
         for (PsiPackage subPackage : subPackages) {
@@ -101,7 +110,19 @@ public class DirectoryManager {
             }
 
         }
+        logger.info("daoImpl类所在的目录为"+daoImplPackage+"对应的目录是否为空 "+(psiDaoImplDirectory==null));
+        logger.info("Mapper类所在的目录为"+mapperPackage+"对应的目录是否为空 "+(psiMapperDirectory==null));
         initSqlAndMybatisXmlDirectory(psiDaoPackage);
+
+
+        if(poPackage==null||psiPoDirectory==null||tablePackage==null
+                ||psiTableDirectory==null||typePackage==null||psiTypeDirectory==null
+                ||daoPackage==null||psiDaoDirectory==null||daoImplPackage==null
+                ||psiDaoImplDirectory==null||mapperPackage==null||psiMapperDirectory==null
+                ||xmlMapperDirectory==null
+                ){
+            throw new RuntimeException("初始化目录失败");
+        }
     }
 
     private  static void  initSqlAndMybatisXmlDirectory(PsiPackage psiPackage){
@@ -122,6 +143,8 @@ public class DirectoryManager {
                 break;
             }
         }
+        logger.info("sql对应的目录是否为空 "+(sqlDiretory==null));
+        logger.info("xml对应的目录是否为空 "+(xmlMapperDirectory==null));
     }
 
     public static String getPoPackage() {

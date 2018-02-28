@@ -54,4 +54,10 @@ public class EntityGeneratorAction extends AnAction {
         jbPopup.showInBestPositionFor(e.getDataContext());
         dataListSelect.setJbPopup(jbPopup);
     }
+
+    @Override
+    public void update(AnActionEvent e) {
+        super.update(e);
+        G.run(e.getProject());
+    }
 }

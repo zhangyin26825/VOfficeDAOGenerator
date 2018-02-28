@@ -62,12 +62,7 @@ public abstract class JavaFileCreate  implements TextFileCreate,JavaCodeElement 
         importLists.add(importDesc);
     }
 
-    @Override
-    public PsiDirectory getDirectory() {
-        String packageName = getPackageName();
-        PsiPackage aPackage = FindUseUtil.findPackage(packageName);
-        return aPackage.getDirectories()[0];
-    }
+
 
     @Override
     public String getFileContent() {

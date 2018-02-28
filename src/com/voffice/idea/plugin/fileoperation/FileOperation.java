@@ -21,6 +21,10 @@ public class FileOperation {
      */
     public static PsiFile createFileExistDel(String fileName, String fileSourcesCode, PsiDirectory directory){
 
+        if(directory==null){
+            throw new RuntimeException("创建文件指定的目录为空，新建的文件为"+fileName);
+        }
+
         Language language=getLanguage(fileName);
         PsiFile psiFile = PsiFileFactory.getInstance(G.getProject()).createFileFromText(fileName, language, fileSourcesCode);
         //如果这个目录下已经存在同名的文件，那么删除

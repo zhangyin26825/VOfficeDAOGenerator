@@ -1,5 +1,6 @@
 package com.voffice.idea.plugin.file.impl;
 
+import com.intellij.psi.PsiDirectory;
 import com.voffice.idea.plugin.directory.DirectoryManager;
 import com.voffice.idea.plugin.file.MysqlJavaFileCreate;
 import com.voffice.idea.plugin.jdbc.TableInfo;
@@ -10,6 +11,11 @@ public class MapperJavaFile extends MysqlJavaFileCreate {
         super(tableInfo);
         addMapperImport();
         addBaseEntityImport();
+    }
+
+    @Override
+    public PsiDirectory getDirectory() {
+        return DirectoryManager.getPsiMapperDirectory();
     }
 
     @Override

@@ -1,5 +1,6 @@
 package com.voffice.idea.plugin.file.enumclass;
 
+import com.intellij.psi.PsiDirectory;
 import com.intellij.psi.PsiFile;
 import com.voffice.idea.plugin.directory.DirectoryManager;
 import com.voffice.idea.plugin.file.JavaFileCreate;
@@ -19,6 +20,10 @@ public class EnumJavaFile extends JavaFileCreate implements JavaCodeElement {
         addImport("com.maqv.mybatis.converter.CommonEnum");
     }
 
+    @Override
+    public PsiDirectory getDirectory() {
+        return DirectoryManager.getPsiTypeDirectory();
+    }
 
     @Override
     public String getClassName() {

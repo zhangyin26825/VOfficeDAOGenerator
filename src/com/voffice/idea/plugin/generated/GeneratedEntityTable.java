@@ -4,7 +4,9 @@ import com.intellij.psi.PsiAnnotation;
 import com.intellij.psi.PsiClass;
 import com.intellij.psi.PsiJavaFile;
 import com.voffice.idea.plugin.Constant;
+import com.voffice.idea.plugin.G;
 import com.voffice.idea.plugin.util.FindUseUtil;
+import org.apache.log4j.Logger;
 
 import java.util.Arrays;
 import java.util.List;
@@ -17,6 +19,8 @@ import java.util.stream.Collectors;
  */
 public class GeneratedEntityTable {
 
+    private static Logger logger = Logger.getLogger(GeneratedEntityTable.class);
+
 
     /**
      *  实体类
@@ -27,7 +31,10 @@ public class GeneratedEntityTable {
      * 寻找所有已经生成过实体类的表
      */
     public static void initGeneratedEntityTable(){
-        entityClasses = FindUseUtil.findUseages(Constant.Table);
+        if(entityClasses==null) {
+            entityClasses = FindUseUtil.findUseages(Constant.Table);
+            logger.info("寻找到使用@Table注解的类的数量为" + entityClasses.size());
+        }
     }
 
     /**

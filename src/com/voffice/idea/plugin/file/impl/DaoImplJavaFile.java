@@ -1,8 +1,11 @@
 package com.voffice.idea.plugin.file.impl;
 
+import com.intellij.psi.PsiDirectory;
+import com.intellij.psi.PsiPackage;
 import com.voffice.idea.plugin.directory.DirectoryManager;
 import com.voffice.idea.plugin.file.MysqlJavaFileCreate;
 import com.voffice.idea.plugin.jdbc.TableInfo;
+import com.voffice.idea.plugin.util.FindUseUtil;
 
 public class DaoImplJavaFile extends MysqlJavaFileCreate {
 
@@ -14,6 +17,11 @@ public class DaoImplJavaFile extends MysqlJavaFileCreate {
         addMapperImport();
         addImport(DirectoryManager.getDaoPackage()+"."+getBaseEntityName()+"Dao");
         addImport(DirectoryManager.getMapperPackage()+"."+getBaseEntityName()+"Mapper");
+    }
+
+    @Override
+    public PsiDirectory getDirectory() {
+        return DirectoryManager.getPsiDaoImplDirectory();
     }
 
     @Override

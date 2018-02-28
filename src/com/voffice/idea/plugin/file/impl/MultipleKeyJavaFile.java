@@ -1,5 +1,7 @@
 package com.voffice.idea.plugin.file.impl;
 
+import com.intellij.psi.PsiDirectory;
+import com.voffice.idea.plugin.directory.DirectoryManager;
 import com.voffice.idea.plugin.file.field.FieldGenerator;
 import com.voffice.idea.plugin.jdbc.ColumnInfo;
 import com.voffice.idea.plugin.jdbc.TableInfo;
@@ -12,6 +14,11 @@ public class MultipleKeyJavaFile extends  EntityJavaFile {
         addLombokImport();
         addMaqvMysqlImport();
         addEnumClass();
+    }
+
+    @Override
+    public PsiDirectory getDirectory() {
+        return DirectoryManager.getPsiPoDirectory();
     }
 
     @Override

@@ -5,18 +5,25 @@ import com.intellij.psi.*;
 import com.intellij.psi.search.GlobalSearchScope;
 import com.intellij.psi.search.searches.ReferencesSearch;
 import com.intellij.util.Query;
+import com.voffice.idea.plugin.generated.GeneratedEntityTable;
+import org.apache.log4j.Logger;
 
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 public class FindUseUtil {
+
+
+    private static Logger logger = Logger.getLogger(FindUseUtil.class);
 
     private  static Project project;
 
     private static JavaPsiFacade javaPsiFacade;
 
     public static  void init(Project p){
+        logger.info(p.getName());
         project=p;
         javaPsiFacade=JavaPsiFacade.getInstance(project);
     }
@@ -47,6 +54,7 @@ public class FindUseUtil {
      */
     public  static Set<PsiJavaFile> findUseages(String qualifiedName){
         PsiClass psiClass = findClass(qualifiedName);
+        logger.info(qualifiedName+"这个类的psiClass 是否为空"+(psiClass==null));
         if (psiClass == null) {
             return Collections.emptySet();
         }
@@ -57,6 +65,8 @@ public class FindUseUtil {
          */
         Query<PsiReference> search = ReferencesSearch.search(psiClass, GlobalSearchScope.allScope(project));
         Set<PsiJavaFile> set=new HashSet<>();
+        logger.info("find user找到的引用数量为"+search.findAll().size());
+        System.out.println("find user找到的引用数量为"+search.findAll().size());
         search.forEach(p->{
             PsiElement element = p.getElement();
             PsiFile containingFile = element.getContainingFile();
@@ -64,7 +74,9 @@ public class FindUseUtil {
                 set.add((PsiJavaFile)containingFile);
             }
         });
-        return set;
+        Set<PsiJavaFile> collect = set.stream().filter(p -> !p.getPackageName().equals("com.maqv.mysql.converter")).collect(Collectors.toSet());
+        logger.info("find use 获得的java类的数量为"+collect.size());
+        return collect;
     }
 
 

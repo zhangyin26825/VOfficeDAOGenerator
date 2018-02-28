@@ -1,5 +1,6 @@
 package com.voffice.idea.plugin.file.impl;
 
+import com.intellij.psi.PsiDirectory;
 import com.voffice.idea.plugin.directory.DirectoryManager;
 import com.voffice.idea.plugin.file.MysqlJavaFileCreate;
 import com.voffice.idea.plugin.jdbc.TableInfo;
@@ -10,6 +11,10 @@ public class DaoJavaFile extends MysqlJavaFileCreate {
         super(tableInfo);
         addBaseEntityImport();
         addDaoImport();
+    }
+    @Override
+    public PsiDirectory getDirectory() {
+        return DirectoryManager.getPsiDaoDirectory();
     }
     @Override
     public String getClassName() {
